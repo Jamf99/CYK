@@ -11,10 +11,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import excepciones.AlfabetoInvalidoException;
+import excepciones.CampoVacioException;
+import excepciones.SimboloRepetidoException;
 
 public class InterfazCYK extends JFrame implements ActionListener {
 	
@@ -27,6 +31,7 @@ public class InterfazCYK extends JFrame implements ActionListener {
 	private JButton butEmpezar;
 	
 	public InterfazCYK() {
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(new Dimension(500,250));
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -60,6 +65,40 @@ public class InterfazCYK extends JFrame implements ActionListener {
 	}
 	
 	public void validar() {
+		try {
+			if(txtCantidadVariables.getText().equals("") || txtAlfabeto.getText().equals("")) {
+				throw new CampoVacioException();
+			}else {
+				int cantidadVariables = Integer.parseInt(txtCantidadVariables.getText());
+				String[] alfabeto = txtAlfabeto.getText().split(",");
+				
+				for (int i = 0; i < alfabeto.length; i++) {
+					if(alfabeto[i].length()!=1) {
+						throw new AlfabetoInvalidoException();
+					}
+				}
+				
+				for (int i = 0; i < alfabeto.length; i++) {
+					for (int j = 0; j < alfabeto.length; j++) {
+						if(alfabeto[i].equals(alfabeto[j]) && i!=j) {
+							throw new SimboloRepetidoException();
+						}
+					}
+				}
+			}
+			
+		}catch(Exception e) {
+			if(e.getClass()== NumberFormatException.class){
+				JOptionPane.showMessageDialog(this, "Procure de que el número de variables sea válido", "Error", JOptionPane.ERROR_MESSAGE);
+
+			}else {
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+	}
+	
+	public void abrirGramatica() {
 		
 	}
 	
