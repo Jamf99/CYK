@@ -35,7 +35,7 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 		butValidarCadena.addActionListener(this);
 		butValidarCadena.setActionCommand(VALIDAR_CADENA);
 		
-		labValidarCadena = new JLabel("         Escribe la cadena que quieras validar:");
+		labValidarCadena = new JLabel("       Escribir la cadena que se quiera validar:");
 		txtValidarCadena = new JTextField();
 		
 		JPanel aux1 = new JPanel();

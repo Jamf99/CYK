@@ -13,7 +13,7 @@ public class PanelGramatica extends JPanel {
 	private JTable tabla;
 	
 	public PanelGramatica() {
-		 TitledBorder border = BorderFactory.createTitledBorder("Cree su graḿatica");
+		 TitledBorder border = BorderFactory.createTitledBorder("Crear graḿatica");
 		 border.setTitleColor(Color.RED);
 		 setBorder(border);
 		 setLayout(new BorderLayout());
