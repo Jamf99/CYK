@@ -17,25 +17,26 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 	
 	private InterfazCYK principal;
 	private PanelGramatica panelGramatica;
+	
 	private JButton butValidarCadena;
 	private JLabel labValidarCadena;
 	private JTextField txtValidarCadena;
 
-	public DialogoGramatica(InterfazCYK principal) {
+	public DialogoGramatica(InterfazCYK principal, int variables) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.principal = principal;
-		setSize(600, 400);
+		setSize(350, 250);
 		setLayout(new BorderLayout());
 		setTitle("Algoritmo de CYK");
 		setResizable(false);
 		
-		panelGramatica = new PanelGramatica();
+		panelGramatica = new PanelGramatica(variables);
 		
 		butValidarCadena = new JButton(VALIDAR_CADENA);
 		butValidarCadena.addActionListener(this);
 		butValidarCadena.setActionCommand(VALIDAR_CADENA);
 		
-		labValidarCadena = new JLabel("       Escribir la cadena que se quiera validar:");
+		labValidarCadena = new JLabel("          Cadena a validar:");
 		txtValidarCadena = new JTextField();
 		
 		JPanel aux1 = new JPanel();
