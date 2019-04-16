@@ -24,6 +24,7 @@ public class InterfazCYK extends JFrame implements ActionListener {
 	
 	public final static String EMPEZAR = "Empezar";
 	
+	private DialogoGramatica dg;
 	private JLabel labAlfabeto;
 	private JTextField txtAlfabeto;
 	private JLabel labCantidadVariables;
@@ -86,6 +87,7 @@ public class InterfazCYK extends JFrame implements ActionListener {
 					}
 				}
 			}
+			abrirGramatica();
 			
 		}catch(Exception e) {
 			if(e.getClass()== NumberFormatException.class){
@@ -99,7 +101,16 @@ public class InterfazCYK extends JFrame implements ActionListener {
 	}
 	
 	public void abrirGramatica() {
-		
+		dg = new DialogoGramatica(this);
+		dg.setLocationRelativeTo(this);
+		dg.setVisible(true);
+		butEmpezar.setEnabled(false);
+	}
+	
+	public void reiniciar() {
+		butEmpezar.setEnabled(true);
+		dg.setVisible(false);
+		//mundo = null;
 	}
 	
 	@Override
