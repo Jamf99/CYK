@@ -92,7 +92,6 @@ public class InterfazCYK extends JFrame implements ActionListener {
 		}catch(Exception e) {
 			if(e.getClass()== NumberFormatException.class){
 				JOptionPane.showMessageDialog(this, "Procure de que el número de variables sea válido", "Error", JOptionPane.ERROR_MESSAGE);
-
 			}else {
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
