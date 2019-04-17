@@ -33,9 +33,29 @@ public class Gramatica {
 		this.setAlfabeto(alfabeto);
 		
 	}
+	
 	public String[] getAlfabeto() {
 		return alfabeto;
 	}
+	
+	public String[][] getTablaCYK(){
+		return tablaCYK;
+	}
+	
+	public void presentarMatriz() {
+		for (int i = 0; i <tablaCYK.length; i++) {
+			for (int j = 0; j < tablaCYK[0].length; j++) {
+				if(tablaCYK[i][j] == null) {
+					tablaCYK[i][j] ="-";
+				}else if(tablaCYK[i][j].equals("")) {
+					tablaCYK[i][j] = "ø";
+				}else {
+					tablaCYK[i][j] = "{"+tablaCYK[i][j]+"}";
+				}
+			}
+		}
+	}
+	
 	public void setAlfabeto(String[] alfabeto) {
 		this.alfabeto = alfabeto;
 	}
@@ -51,18 +71,25 @@ public class Gramatica {
 	public boolean CYK(String cadena) {
 		tablaCYK = new String[cadena.length()][cadena.length()];
 		tablaCYK = inicializarCYK(tablaCYK, cadena);
-		
-		for (int i = 0; i <tablaCYK.length; i++) {
-			for (int j = 0; j < tablaCYK[0].length; j++) {
-				System.out.print(tablaCYK[i][j] +"\t");
-			}
-			System.out.println("");
-		}
-		return true;
+		repetirCYK();
+		boolean generado = SPertenece();
+		presentarMatriz();
+		return generado;
 	}
+	
+	public boolean SPertenece() {
+		String[] producciones = tablaCYK[0][tablaCYK.length-1].split(",");
+		boolean pertenece = false;
+		for (int i = 0; i < producciones.length && !pertenece; i++) {
+			if(producciones[i].equals("S")) {
+				pertenece = true;
+			}
+		}
+		return pertenece;
+	}
+	
 	//pendiente
 	public boolean validarCadenaPerteneceAlAlfabeto(String cadenaValidar) {
-		
 		boolean valido=true;
 		for (int i = 0; i < cadenaValidar.length() && valido ; i++) {
 			String letra=cadenaValidar.charAt(i)+"";
@@ -113,7 +140,7 @@ public class Gramatica {
 				for (int k = 0; k <= j-1; k++) {
 								
 					String Xik = tablaCYK[i][k];
-					String X2 = tablaCYK[i+k][j-k];
+					String X2 = tablaCYK[i+k+1][j-k-1];
 					
 					if(primeraVez == false) {
 						String valor =concatenacion(Xik, X2);
@@ -131,19 +158,19 @@ public class Gramatica {
 		}
 		return true;
 	}
+	
 	public String buscarProducciones(String Xij) {
 		String[] produc = Xij.split(",");
 		String variables = "";
-
+		boolean primeraVez = false;
 		for (int i = 0; i < produc.length; i++) {
 			String simbolo = produc[i];
-			boolean primeraVez = false;
 			for (int j = 0; j < producciones.size(); j++) {
 				boolean pertenece = producciones.get(j).encontrarProduccion(simbolo);
-				if(pertenece == true  && primeraVez == false) {
+				if(pertenece == true  && primeraVez == false && variableRepetida(variables, producciones.get(j).getNombre()) == false) {
 					variables +=producciones.get(j).getNombre();
 					primeraVez=true;
-				}else if(pertenece == true) {
+				}else if(pertenece == true && variableRepetida(variables, producciones.get(j).getNombre()) == false) {
 					variables += ","+producciones.get(j).getNombre();
 				}
 			}
@@ -152,6 +179,18 @@ public class Gramatica {
 		
 		return variables;
 	}
+	
+	public boolean variableRepetida(String variables, String simbolo) {
+		String[] vars = variables.split(",");
+		boolean repetido = false;
+		for (int i = 0; i < vars.length && !repetido; i++) {
+			if(vars[i].equals(simbolo)) {
+				repetido = true;
+			}
+		}
+		return repetido;
+	}
+	
 	public String concatenacion(String Xik, String X2) {
 		
 		String distributiva = "";
@@ -173,5 +212,20 @@ public class Gramatica {
 		}
 		
 		return distributiva;
+	}
+
+	public boolean validarProducciones(String[] prod) {
+		boolean valido = true;
+		for (int i = 0; i < prod.length && valido; i++) {
+			String[] produccion = prod[i].split(",");
+			for(int j = 0; j < produccion.length && valido; j++) {
+				if(produccion[j].length() < 2) {
+					valido = validarCadenaPerteneceAlAlfabeto(produccion[j]);
+				} else if(produccion[j].length() > 2) {
+					valido = false;
+				}
+			}
+		}
+		return valido;
 	}
 }
