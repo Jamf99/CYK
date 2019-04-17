@@ -6,16 +6,16 @@ public class Gramatica {
 
 	private ArrayList<Produccion> producciones;
 	private String[] alfabeto;
-	private String cadena;
 	private String[][] tablaCYK;
+	
 	public Gramatica(int cantProducciones, String[] alfabeto) {
 		
 		producciones = new ArrayList<Produccion>();
 		
 		char nombreVariable;
-		
+		nombreVariable = 'S';
 		for (int i = 0; i < cantProducciones; i++) {
-			 nombreVariable = 'S';
+			 
 			if(i==0) {
 				 Produccion produccion= new Produccion(nombreVariable+"");
 				 producciones.add(produccion);
@@ -43,17 +43,14 @@ public class Gramatica {
 	public void agregarProducciones(int produccion, String valor) {
 		producciones.get(produccion).agregarProduccion(valor);
 	}
-		
-	public String getCadena() {
-		return cadena;
-	}
-	public void setCadena(String cadena) {
-		this.cadena = cadena;
+	
+	public ArrayList<Produccion> getProducciones(){
+		return producciones;
 	}
 	
-	public boolean CYK() {
+	public boolean CYK(String cadena) {
 		tablaCYK = new String[cadena.length()][cadena.length()];
-		tablaCYK = paso1CYK(tablaCYK);
+		tablaCYK = paso1CYK(tablaCYK, cadena);
 		
 		for (int i = 0; i <tablaCYK[0].length; i++) {
 			System.out.println(tablaCYK[i][0]);
@@ -81,7 +78,7 @@ public class Gramatica {
 		return valido;
 	}
 	
-	public String[][] paso1CYK(String[][] tabla) {
+	public String[][] paso1CYK(String[][] tabla, String cadena) {
 		String[][]tabla1 = tabla;
 		
 		for (int i = 0; i < cadena.length(); i++) {
