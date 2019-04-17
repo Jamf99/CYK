@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import modelo.Produccion;
 
 public class DialogoGramatica extends JDialog implements ActionListener{
 	
@@ -22,7 +25,7 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 	private JLabel labValidarCadena;
 	private JTextField txtValidarCadena;
 
-	public DialogoGramatica(InterfazCYK principal, int variables) {
+	public DialogoGramatica(InterfazCYK principal, int variables, ArrayList<Produccion> producciones) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.principal = principal;
 		setSize(350, 250);
@@ -30,7 +33,7 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 		setTitle("Algoritmo de CYK");
 		setResizable(false);
 		
-		panelGramatica = new PanelGramatica(variables);
+		panelGramatica = new PanelGramatica(variables, producciones);
 		
 		butValidarCadena = new JButton(VALIDAR_CADENA);
 		butValidarCadena.addActionListener(this);
@@ -56,8 +59,10 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent evento) {
+		String comando = evento.getActionCommand();
+		if(comando.equals(VALIDAR_CADENA)) {
+			principal.ejecutarCYK(panelGramatica.darProducciones(), txtValidarCadena.getText());
+		}
 	}
 }

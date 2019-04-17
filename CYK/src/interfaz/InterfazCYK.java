@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,6 +20,8 @@ import javax.swing.border.TitledBorder;
 import excepciones.AlfabetoInvalidoException;
 import excepciones.CampoVacioException;
 import excepciones.SimboloRepetidoException;
+import modelo.Gramatica;
+import modelo.Produccion;
 
 public class InterfazCYK extends JFrame implements ActionListener {
 	
@@ -30,6 +33,8 @@ public class InterfazCYK extends JFrame implements ActionListener {
 	private JLabel labCantidadVariables;
 	private JTextField txtCantidadVariables;
 	private JButton butEmpezar;
+	
+	private Gramatica gramatica;
 	
 	public InterfazCYK() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -86,7 +91,8 @@ public class InterfazCYK extends JFrame implements ActionListener {
 						}
 					}
 				}
-				abrirGramatica(cantidadVariables);
+				gramatica = new Gramatica(cantidadVariables, alfabeto);
+				abrirGramatica(cantidadVariables, gramatica.getProducciones());
 			}
 		}catch(Exception e) {
 			if(e.getClass()== NumberFormatException.class){
@@ -95,11 +101,10 @@ public class InterfazCYK extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		
 	}
 	
-	public void abrirGramatica(int variables) {
-		dg = new DialogoGramatica(this, variables);
+	public void abrirGramatica(int variables, ArrayList<Produccion> producciones) {
+		dg = new DialogoGramatica(this, variables, producciones);
 		dg.setLocationRelativeTo(this);
 		dg.setVisible(true);
 		butEmpezar.setEnabled(false);
@@ -110,7 +115,7 @@ public class InterfazCYK extends JFrame implements ActionListener {
 		butEmpezar.setEnabled(true);
 		dg.setVisible(false);
 		this.setVisible(true);
-		//mundo = null;
+		gramatica = null;
 	}
 	
 	@Override
@@ -119,6 +124,16 @@ public class InterfazCYK extends JFrame implements ActionListener {
 		if(comando.equals(EMPEZAR)) {
 			validar();
 		}
+	}
+	
+	public void ejecutarCYK(String[] prod, String cadena) {
+		for(int i = 0; i < gramatica.getProducciones().size(); i++) {
+			String[] p = prod[i].split(",");
+			for(int j = 0; j < p.length; j++) {
+				gramatica.agregarProducciones(i, p[j]);
+			}
+		}
+		gramatica.CYK(cadena);
 	}
 	
 	public static void main(String[] args) {
