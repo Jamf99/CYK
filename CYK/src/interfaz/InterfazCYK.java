@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import excepciones.AlfabetoInvalidoException;
 import excepciones.CampoVacioException;
+import excepciones.GramaticaInvalidaException;
 import excepciones.SimboloRepetidoException;
 import modelo.Gramatica;
 import modelo.Produccion;
@@ -28,6 +29,7 @@ public class InterfazCYK extends JFrame implements ActionListener {
 	public final static String EMPEZAR = "Empezar";
 	
 	private DialogoGramatica dg;
+	private DialogoCadenaAceptada ca;
 	private JLabel labAlfabeto;
 	private JTextField txtAlfabeto;
 	private JLabel labCantidadVariables;
@@ -125,16 +127,28 @@ public class InterfazCYK extends JFrame implements ActionListener {
 			validar();
 		}
 	}
-	//
-	//
-	//
-	//			VALIDACIONES	
-	//			CADENA y PRODUCCIONES
-	//			SEGUNDA 
-	//			VENTANA
-	//			pto el que lo lea
-	//
-	//
+	
+	public void validacionesGramatica(String[] prod, String cadena) {
+		try {
+			for(int i = 0; i < prod.length; i++) {
+				if(prod[i].equals("") || cadena.equals("")) {
+					throw new CampoVacioException();
+				}
+			}
+			if(gramatica.validarCadenaPerteneceAlAlfabeto(cadena)) {
+				if(gramatica.validarProducciones(prod)) {
+					ejecutarCYK(prod, cadena);
+				}else {
+					throw new GramaticaInvalidaException();
+				}
+			}else {
+				throw new GramaticaInvalidaException();
+			}
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
 	
 	public void ejecutarCYK(String[] prod, String cadena) {
 		for(int i = 0; i < gramatica.getProducciones().size(); i++) {
@@ -143,7 +157,20 @@ public class InterfazCYK extends JFrame implements ActionListener {
 				gramatica.agregarProducciones(i, p[j]);
 			}
 		}
-		gramatica.CYK(cadena);
+		if(!gramatica.CYK(cadena)) {
+			JOptionPane.showMessageDialog(this, "La cadena "+cadena+" no es generada por la gramática", "Algoritmo CYK", JOptionPane.INFORMATION_MESSAGE);
+		}else {
+			ca = new DialogoCadenaAceptada(this, gramatica.getTablaCYK(), cadena);
+			ca.setLocationRelativeTo(this);
+			ca.setVisible(true);
+			dg.setVisible(false);
+		}
+	}
+	
+	public void cerrarDialogoCadenaAceptada() {
+		ca.setVisible(false);
+		dg.setVisible(true);
+		dg.borrarValorCampo();
 	}
 	
 	public static void main(String[] args) {

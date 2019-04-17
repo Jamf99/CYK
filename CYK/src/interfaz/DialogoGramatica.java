@@ -54,6 +54,10 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 		add(panelGramatica, BorderLayout.CENTER);
 	}
 	
+	public void borrarValorCampo() {
+		txtValidarCadena.setText("");
+	}
+	
 	public void dispose() {
 		principal.reiniciar();
 	}
@@ -62,7 +66,7 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent evento) {
 		String comando = evento.getActionCommand();
 		if(comando.equals(VALIDAR_CADENA)) {
-			principal.ejecutarCYK(panelGramatica.darProducciones(), txtValidarCadena.getText());
+			principal.validacionesGramatica(panelGramatica.darProducciones(), txtValidarCadena.getText());
 		}
 	}
 }
