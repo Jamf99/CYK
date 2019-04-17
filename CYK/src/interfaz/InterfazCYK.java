@@ -86,9 +86,8 @@ public class InterfazCYK extends JFrame implements ActionListener {
 						}
 					}
 				}
+				abrirGramatica(cantidadVariables);
 			}
-			abrirGramatica();
-			
 		}catch(Exception e) {
 			if(e.getClass()== NumberFormatException.class){
 				JOptionPane.showMessageDialog(this, "Procure de que el número de variables sea válido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -99,8 +98,8 @@ public class InterfazCYK extends JFrame implements ActionListener {
 		
 	}
 	
-	public void abrirGramatica() {
-		dg = new DialogoGramatica(this);
+	public void abrirGramatica(int variables) {
+		dg = new DialogoGramatica(this, variables);
 		dg.setLocationRelativeTo(this);
 		dg.setVisible(true);
 		butEmpezar.setEnabled(false);
