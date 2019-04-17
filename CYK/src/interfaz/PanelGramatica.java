@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 public class PanelGramatica extends JPanel {
 	
 	public PanelGramatica(int variables) {
-		 TitledBorder border = BorderFactory.createTitledBorder("Crear graḿatica");
+		 TitledBorder border = BorderFactory.createTitledBorder("Crear gramática");
 		 setPreferredSize(new Dimension(400,300));
 		 border.setTitleColor(Color.RED);
 		 setBorder(border);
@@ -37,7 +37,7 @@ public class PanelGramatica extends JPanel {
 			}else {
 				var = (char)valor;
 			}
-			variables[i] = new JLabel("                  "+var+" --->");
+			variables[i] = new JLabel("                  "+var+" →");
 			producciones[i] = new JTextField();
 			aux.add(variables[i]); aux.add(producciones[i]);
 		}

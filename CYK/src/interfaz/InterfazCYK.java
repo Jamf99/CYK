@@ -38,9 +38,9 @@ public class InterfazCYK extends JFrame implements ActionListener {
 		setResizable(false);
 		setTitle("Algoritmo de CYK");
 		setLayout(new BorderLayout());
-		labAlfabeto = new JLabel("<html>Ingrese el alfabeto de la gram√°tica<br>(separado por comas y sin espacios)</html>");
+		labAlfabeto = new JLabel("<html>Ingrese el alfabeto de la gram·tica<br>(separado por comas y sin espacios)</html>");
 		txtAlfabeto = new JTextField();
-		labCantidadVariables = new JLabel("<html>Ingrese el n√∫mero de variables<br>que tendr√° la gram√°tica</html>");
+		labCantidadVariables = new JLabel("<html>Ingrese el n˙mero de variables<br>que tendr· la gram·tica</html>");
 		txtCantidadVariables = new JTextField();
 		butEmpezar = new JButton("Empezar");
 		butEmpezar.setActionCommand(EMPEZAR);
@@ -90,7 +90,7 @@ public class InterfazCYK extends JFrame implements ActionListener {
 			}
 		}catch(Exception e) {
 			if(e.getClass()== NumberFormatException.class){
-				JOptionPane.showMessageDialog(this, "Procure de que el n√∫mero de variables sea v√°lido", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Procure de que el n˙mero de variables sea v·lido", "Error", JOptionPane.ERROR_MESSAGE);
 			}else {
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -103,11 +103,13 @@ public class InterfazCYK extends JFrame implements ActionListener {
 		dg.setLocationRelativeTo(this);
 		dg.setVisible(true);
 		butEmpezar.setEnabled(false);
+		this.setVisible(false);
 	}
 	
 	public void reiniciar() {
 		butEmpezar.setEnabled(true);
 		dg.setVisible(false);
+		this.setVisible(true);
 		//mundo = null;
 	}
 	
