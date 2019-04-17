@@ -50,14 +50,17 @@ public class Gramatica {
 	
 	public boolean CYK(String cadena) {
 		tablaCYK = new String[cadena.length()][cadena.length()];
-		tablaCYK = paso1CYK(tablaCYK, cadena);
+		tablaCYK = inicializarCYK(tablaCYK, cadena);
 		
-		for (int i = 0; i <tablaCYK[0].length; i++) {
-			System.out.println(tablaCYK[i][0]);
+		for (int i = 0; i <tablaCYK.length; i++) {
+			for (int j = 0; j < tablaCYK[0].length; j++) {
+				System.out.print(tablaCYK[i][j] +"\t");
+			}
+			System.out.println("");
 		}
 		return true;
 	}
-	
+	//pendiente
 	public boolean validarCadenaPerteneceAlAlfabeto(String cadenaValidar) {
 		
 		boolean valido=true;
@@ -78,7 +81,7 @@ public class Gramatica {
 		return valido;
 	}
 	
-	public String[][] paso1CYK(String[][] tabla, String cadena) {
+	public String[][] inicializarCYK(String[][] tabla, String cadena) {
 		String[][]tabla1 = tabla;
 		
 		for (int i = 0; i < cadena.length(); i++) {
@@ -100,4 +103,75 @@ public class Gramatica {
 		return tabla1;
 	}
 	
+	public boolean repetirCYK() {
+		int n = tablaCYK.length;
+		for (int j = 1; j < n; j++) {
+			
+			for (int i = 0; i <n-j; i++) {
+				String Xij = "";
+				boolean primeraVez = false;
+				for (int k = 0; k <= j-1; k++) {
+								
+					String Xik = tablaCYK[i][k];
+					String X2 = tablaCYK[i+k][j-k];
+					
+					if(primeraVez == false) {
+						String valor =concatenacion(Xik, X2);
+						Xij += valor;
+						primeraVez=true;
+					}else {
+						String valor =","+concatenacion(Xik, X2);
+						Xij += valor;
+					}
+				}
+				
+				String resultado= buscarProducciones(Xij);
+				tablaCYK[i][j] = resultado;
+			}
+		}
+		return true;
+	}
+	public String buscarProducciones(String Xij) {
+		String[] produc = Xij.split(",");
+		String variables = "";
+
+		for (int i = 0; i < produc.length; i++) {
+			String simbolo = produc[i];
+			boolean primeraVez = false;
+			for (int j = 0; j < producciones.size(); j++) {
+				boolean pertenece = producciones.get(j).encontrarProduccion(simbolo);
+				if(pertenece == true  && primeraVez == false) {
+					variables +=producciones.get(j).getNombre();
+					primeraVez=true;
+				}else if(pertenece == true) {
+					variables += ","+producciones.get(j).getNombre();
+				}
+			}
+
+		}
+		
+		return variables;
+	}
+	public String concatenacion(String Xik, String X2) {
+		
+		String distributiva = "";
+		String[] X0 = Xik.split(",");
+		String[] X1 = X2.split(",");
+		boolean primeraVez = false;
+		
+		for (int i = 0; i < X0.length; i++) {
+			for (int j = 0; j < X1.length; j++) {
+				if(primeraVez == false) {
+					String valor = X0[i]+""+X1[j];
+					distributiva += valor;
+					primeraVez=true;
+				}else {
+					String valor = ","+X0[i]+""+X1[j];
+					distributiva += valor;
+				}
+			}
+		}
+		
+		return distributiva;
+	}
 }

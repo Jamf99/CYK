@@ -125,6 +125,16 @@ public class InterfazCYK extends JFrame implements ActionListener {
 			validar();
 		}
 	}
+	//
+	//
+	//
+	//			VALIDACIONES	
+	//			CADENA y PRODUCCIONES
+	//			SEGUNDA 
+	//			VENTANA
+	//			pto el que lo lea
+	//
+	//
 	
 	public void ejecutarCYK(String[] prod, String cadena) {
 		for(int i = 0; i < gramatica.getProducciones().size(); i++) {
