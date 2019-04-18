@@ -157,14 +157,11 @@ public class InterfazCYK extends JFrame implements ActionListener {
 				gramatica.agregarProducciones(i, p[j]);
 			}
 		}
-		if(!gramatica.CYK(cadena)) {
-			JOptionPane.showMessageDialog(this, "La cadena "+cadena+" no es generada por la gramática", "Algoritmo CYK", JOptionPane.INFORMATION_MESSAGE);
-		}else {
-			ca = new DialogoCadenaAceptada(this, gramatica.getTablaCYK(), cadena);
-			ca.setLocationRelativeTo(this);
-			ca.setVisible(true);
-			dg.setVisible(false);
-		}
+		boolean genera = gramatica.CYK(cadena);
+		ca = new DialogoCadenaAceptada(this, gramatica.getTablaCYK(), cadena, genera);
+		ca.setLocationRelativeTo(this);
+		ca.setVisible(true);
+		dg.setVisible(false);
 	}
 	
 	public void cerrarDialogoCadenaAceptada() {

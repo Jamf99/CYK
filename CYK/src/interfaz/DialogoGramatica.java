@@ -17,11 +17,13 @@ import modelo.Produccion;
 public class DialogoGramatica extends JDialog implements ActionListener{
 	
 	public final static String VALIDAR_CADENA = "Validar Cadena";
+	public final static String VOLVER = "Volver";
 	
 	private InterfazCYK principal;
 	private PanelGramatica panelGramatica;
 	
 	private JButton butValidarCadena;
+	private JButton butVolver;
 	private JLabel labValidarCadena;
 	private JTextField txtValidarCadena;
 
@@ -38,19 +40,19 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 		butValidarCadena = new JButton(VALIDAR_CADENA);
 		butValidarCadena.addActionListener(this);
 		butValidarCadena.setActionCommand(VALIDAR_CADENA);
+		butVolver = new JButton(VOLVER);
+		butVolver.addActionListener(this);
+		butVolver.setActionCommand(VOLVER);
 		
 		labValidarCadena = new JLabel("          Cadena a validar:");
 		txtValidarCadena = new JTextField();
 		
 		JPanel aux1 = new JPanel();
-		aux1.setLayout(new GridLayout(1, 2));
+		aux1.setLayout(new GridLayout(2, 2));
 		aux1.add(labValidarCadena); aux1.add(txtValidarCadena);
+		aux1.add(butValidarCadena); aux1.add(butVolver);
 		
-		JPanel aux2 = new JPanel();
-		aux2.setLayout(new GridLayout(2,1));
-		aux2.add(aux1); aux2.add(butValidarCadena);
-		
-		add(aux2, BorderLayout.SOUTH);
+		add(aux1, BorderLayout.SOUTH);
 		add(panelGramatica, BorderLayout.CENTER);
 	}
 	
@@ -59,7 +61,7 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 	}
 	
 	public void dispose() {
-		principal.reiniciar();
+		System.exit(0);
 	}
 
 	@Override
@@ -67,6 +69,8 @@ public class DialogoGramatica extends JDialog implements ActionListener{
 		String comando = evento.getActionCommand();
 		if(comando.equals(VALIDAR_CADENA)) {
 			principal.validacionesGramatica(panelGramatica.darProducciones(), txtValidarCadena.getText());
+		}else if(comando.equals(VOLVER)) {
+			principal.reiniciar();
 		}
 	}
 }
