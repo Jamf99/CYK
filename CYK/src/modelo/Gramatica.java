@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 
 /**
- * Clase que se encarga de manejar la información de la grmática en FNC y de hacer el algoritmo de CYK
+ * Clase que se encarga de manejar la información de la gramática en FNC y de hacer el algoritmo de CYK
  * @author Juan Manuel Imbachí - Jorge Antonio Morales 
  *
  */
@@ -25,7 +25,7 @@ public class Gramatica {
 	private String[][] tablaCYK;
 	
 	/**
-	 * Constructor de la clase Gramatica
+	 * Constructor de la clase Gramática
 	 * @param cantProducciones Entero con la cantidad de producciones que tiene la gramática
 	 * @param alfabeto Arreglo de String con el alfabeto aceptado por la gramática
 	 */
@@ -303,9 +303,9 @@ public class Gramatica {
 	}
 
 	/**
-	 * Método encargado de validar que las producciones de la gramática son de tamanio 2 o 1, y que los terminales pertenecen al alfabeto
+	 * Método encargado de validar que las producciones de la gramática son de tamaño 2 o 1, y que los terminales pertenecen al alfabeto
 	 * @param prod Arreglo de String con las producciones de la gramática
-	 * @return true en caso de que cumpla las condiciones de tamanio y de pertenencia del alfabeto, false en caso contrario.
+	 * @return true en caso de que cumpla las condiciones de tamaño y de pertenencia del alfabeto, false en caso contrario.
 	 */
 	public boolean validarProducciones(String[] prod) {
 		boolean valido = true;
