@@ -1,4 +1,4 @@
-package excepciones;
+   package excepciones;
 
 public class AlfabetoInvalidoException extends Exception {
 
